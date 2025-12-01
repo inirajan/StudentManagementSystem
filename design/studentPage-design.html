@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflgitare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script>
+      tailwind.config = {
+        darkMode: "media",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4f46e5", // Indigo 600
+              secondary: "#4338ca" /* Indigo 700 */,
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans"
+  >
+    <div class="flex h-screen overflow-hidden">
+      <!-- SideBar -->
+      <aside
+        class="w-64 bg-inidigo-600 dark:bg-indigo-800 flex flex-col shadow-xl z-10 trasnsitio-colors duration-300 hidden md:flex"
+      >
+        <!-- Logo -->
+        <div class="p-6">
+          <h1 class="text-2xl font-bold text-white tracking-wide">
+            School <span class="text-indigo-200">Logo</span>
+          </h1>
+        </div>
+
+        <!-- Navigation Bar -->
+
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 bg-white/10 text-white rounded-xl transition-all hover:bg-white/20"
+          >
+            <i class="fa-solid fa-house w-5 text-center"></i>
+            <span class="font-medium">Dashboard</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-graduation-cap w-5 text-center"></i>
+            <span class="font-medium">Grade & Reports</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-calendar-days w-5 text-center"></i>
+            <span class="font-medium">Timetable</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-book-open w-5 text-center"></i>
+            <span class="font-medium">Assignments</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-user-check w-5 text-center"></i>
+            <span class="font-medium">Attendance</span>
+          </a>
+        </nav>
+        <!--  profile -->
+      </aside>
+    </div>
+  </body>
+</html>
