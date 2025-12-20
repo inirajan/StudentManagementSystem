@@ -1,9 +1,10 @@
 import express from "express";
-import config from "./config/config.js";
+import dotenv from "dotenv";
 
 import connectDB from "./config/database.js";
 import studentRoute from "./routes/student.route.js";
 
+dotenv.config();
 const app = express();
 
 connectDB();
@@ -16,6 +17,8 @@ app.get("/", (req, res) => {
 
 app.use("/", studentRoute);
 
-app.listen(config.port, () => {
-  console.log(`Server running at port: ${config.port} `);
+const PORT = process.env.PORT || 5000;
+
+app.listen(() => {
+  console.log(`Server running at port: ${PORT}`);
 });
