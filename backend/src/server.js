@@ -20,10 +20,6 @@ app.use(express.json());
 
 app.use("/", studentRoute);
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(() => {
-
 app.listen(config.port,() => {
-  console.log(`Server running at port: ${PORT}`);
+  console.log(`Server running at port: ${config.port}`);
 });
