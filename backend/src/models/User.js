@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 
-const studentSchema = new mongoose.Schema({
+import {
+  ROLE_ADMIN,
+  ROLE_PARENT,
+  ROLE_STUDENT,
+  ROLE_TEACHER,
+} from "../constants/roles.js";
+
+const User = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required."],
@@ -44,6 +51,11 @@ const studentSchema = new mongoose.Schema({
     // required: [true, "Age is required."],
   },
 
+  role: {
+    type: String,
+    required: [true, "Role is required."],
+    enum: { ROLE_ADMIN, ROLE_STUDENT, ROLE_TEACHER, ROLE_PARENT },
+  },
   gender: {
     type: [String],
     required: [true, "Gender is required."],
@@ -78,6 +90,6 @@ const studentSchema = new mongoose.Schema({
   },
 });
 
-const model = mongoose.model("Student", studentSchema);
+const model = mongoose.model("User", UserSchema);
 
 export default model;

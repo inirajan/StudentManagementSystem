@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import config from "./config/config.js";
 import connectDB from "./config/database.js";
 import studentRoute from "./routes/student.route.js";
+import authRoute from "./routes/auth.route.js";
 
 const app = express();
 
@@ -11,6 +12,7 @@ connectDB();
 
 app.use(bodyParser.json());
 
+app.use("/", authRoute);
 app.use("/", studentRoute);
 
 app.listen(config.port, () => {
