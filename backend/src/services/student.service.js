@@ -47,7 +47,7 @@ const deleteStudent = async (id) => {
 
   await User.findByIdandUpdate(id);
 
-  return { message: "Student deleted successfully." };
+  return { message: "Student deleted successfully.." };
 };
 
 export default {
