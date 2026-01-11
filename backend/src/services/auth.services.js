@@ -8,7 +8,7 @@ const login = async (data) => {
   return {
     _id: user._id,
     name: user.name,
-    email: user.email,https://github.com/anilkumal557/StudentManagementSystem/pull/12/conflict?name=backend%252Fsrc%252Fservices%252Fauth.service.js&base_oid=d436371eec9b75199941af14028f4c081d7890f6&head_oid=17ef206d07d29c4aa171005bc6c8b930083f0eb6
+    email: user.email,
     phone: user.phone,
     role: user.role,
   };
