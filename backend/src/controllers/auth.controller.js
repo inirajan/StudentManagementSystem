@@ -1,8 +1,8 @@
-import authServices from "../services/auth.services.js";
+import authService from "../services/auth.service.js";
 
 const login = async (req, res) => {
   try {
-    const data = await authServices.login(req.body);
+    const data = await authService.login(req.body);
 
     res.status(200).json(data);
   } catch (error) {
@@ -12,7 +12,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const data = await authServices.register(req.body);
+    const data = await authService.register(req.body);
 
     res.status(201).json(data);
   } catch (error) {
