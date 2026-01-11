@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config = {
-  appName: process.env.APP_NAME || "Student API",
+  name: process.env.NAME || "",
   port: process.env.PORT || 6000,
-  mongoURI: process.env.MONGO_URI
+  mongodb_url: process.env.MONGODB_URL,
 };
 
 export default config;
