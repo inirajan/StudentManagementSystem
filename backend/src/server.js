@@ -19,6 +19,7 @@ app.use(express.json());
 app.use("/", studentRoute);
 app.use("/api/users", userRoute); 
 app.use("/api/auth", authRoutes);
+app.use("/api/classes", classRoutes);
 
 app.listen(config.port,() => {
   console.log(`Server running at port: ${config.port}`);
