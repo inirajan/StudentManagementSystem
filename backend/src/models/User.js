@@ -78,11 +78,6 @@ const User = new mongoose.Schema({
     },
   },
 
-  //Guardian Information
-  parentName: String,
-  parentPhone: String,
-  parentEmail: String,
-
   createAt: {
     type: Date,
     default: Date.now(),
