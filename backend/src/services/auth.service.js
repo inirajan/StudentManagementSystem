@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("Invalid email or password");

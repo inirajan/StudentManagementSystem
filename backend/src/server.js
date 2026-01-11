@@ -8,6 +8,7 @@ import userRoute from "./routes/users.route.js";
 import authRoutes from "./routes/auth.route.js";
 import classRoutes from "./routes/class.route.js";
 
+
 const app = express();
 
 connectDB();
