@@ -3,7 +3,7 @@ import config from "./config.js";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.mongoURI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB Connected Successfully");
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
@@ -11,8 +11,5 @@ const connectDB = async () => {
   }
 };
 
-<<<<<<< HEAD
 export default connectDB;
-=======
-export default connectDB;
->>>>>>> main
+
