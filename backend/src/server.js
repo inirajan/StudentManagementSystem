@@ -2,9 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import connectDB from "./config/database.js";
-import config from "./config/config.js";
-import userRoute from "./routes/user.route.js";
+
+import userRoute from "./routes/users.route.js";
 import authRoutes from "./routes/auth.route.js";
+
 
 const app = express();
 
