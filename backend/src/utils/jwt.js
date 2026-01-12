@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-<<<<<<< HEAD
 import config from "../config/config.js";
 
 const createJWT = (data) => {
@@ -21,13 +20,3 @@ const verifyJWT = async (token) => {
 };
 
 export default { createJWT, verifyJWT };
-=======
-
-export const createJWT = (user) => {
-  return jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
-};
->>>>>>> upstream/main

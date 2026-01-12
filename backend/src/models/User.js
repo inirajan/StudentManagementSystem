@@ -1,17 +1,7 @@
 import mongoose from "mongoose";
 
-<<<<<<< HEAD
-const userSchema = new mongoose.Schema({
-=======
-import {
-  ROLE_ADMIN,
-  ROLE_PARENT,
-  ROLE_STUDENT,
-  ROLE_TEACHER,
-} from "../constants/roles.js";
 
-const User = new mongoose.Schema({
->>>>>>> upstream/main
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required."],
@@ -34,10 +24,6 @@ const User = new mongoose.Schema({
 
         return emailRegex.test(value);
       },
-<<<<<<< HEAD
-      message: "Invalid email address",
-=======
->>>>>>> upstream/main
     },
   },
 
@@ -54,34 +40,17 @@ const User = new mongoose.Schema({
     maxLength: [13, "Invalid phone number."],
   },
 
-<<<<<<< HEAD
-  role: {
-    type: [String],
-    default: ["STUDENT"],
-    enum: ["ADMIN", "STUDENT", "TEACHER", "PARENT"],
-  },
 
-  gender: {
-    type: [String],
-    required: [true, "Gender is required."],
-    enum: ["MALE", "FEMALE", "OTHERS"],
-    default: ["MALE"],
-=======
-  dateOfBirth: {
-    type: Date,
-    // required: [true, "Age is required."],
-  },
 
   role: {
-    type: String,
+    type: [String],
     required: [true, "Role is required."],
-    enum: { ROLE_ADMIN, ROLE_STUDENT, ROLE_TEACHER, ROLE_PARENT },
+    enum: ["ADMIN", "STUDENT", "TEACHER", "PARENT" ],
   },
   gender: {
     type: [String],
     required: [true, "Gender is required."],
     enum: ["Male", "Female", "Others"],
->>>>>>> upstream/main
   },
 
   address: {
@@ -100,14 +69,11 @@ const User = new mongoose.Schema({
     },
   },
 
-<<<<<<< HEAD
-=======
   //Guardian Information
   parentName: String,
   parentPhone: String,
   parentEmail: String,
 
->>>>>>> upstream/main
   createAt: {
     type: Date,
     default: Date.now(),
@@ -115,10 +81,6 @@ const User = new mongoose.Schema({
   },
 });
 
-<<<<<<< HEAD
 const model = mongoose.model("User", userSchema);
-=======
-const model = mongoose.model("User", UserSchema);
->>>>>>> upstream/main
 
 export default model;
