@@ -1,13 +1,6 @@
 import mongoose from "mongoose";
 
-import {
-  ROLE_ADMIN,
-  ROLE_PARENT,
-  ROLE_STUDENT,
-  ROLE_TEACHER,
-} from "../constants/roles.js";
-
-const User = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required."],
@@ -30,6 +23,7 @@ const User = new mongoose.Schema({
 
         return emailRegex.test(value);
       },
+      message: "Invalid email address",
     },
   },
 
@@ -46,20 +40,17 @@ const User = new mongoose.Schema({
     maxLength: [13, "Invalid phone number."],
   },
 
-  dateOfBirth: {
-    type: Date,
-    // required: [true, "Age is required."],
+  role: {
+    type: [String],
+    default: ["STUDENT"],
+    enum: ["ADMIN", "STUDENT", "TEACHER", "PARENT"],
   },
 
-  role: {
-    type: String,
-    required: [true, "Role is required."],
-    enum: { ROLE_ADMIN, ROLE_STUDENT, ROLE_TEACHER, ROLE_PARENT },
-  },
   gender: {
     type: [String],
     required: [true, "Gender is required."],
-    enum: ["Male", "Female", "Others"],
+    enum: ["MALE", "FEMALE", "OTHERS"],
+    default: ["MALE"],
   },
 
   address: {
@@ -85,6 +76,6 @@ const User = new mongoose.Schema({
   },
 });
 
-const model = mongoose.model("User", UserSchema);
+const model = mongoose.model("User", userSchema);
 
 export default model;

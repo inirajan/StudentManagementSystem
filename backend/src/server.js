@@ -1,10 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
 
 import connectDB from "./config/database.js";
 import config from "./config/config.js";
-import studentRoute from "./routes/student.route.js";
+import userRoute from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 
 const app = express();
@@ -12,10 +11,9 @@ const app = express();
 connectDB();
 
 app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api/students", studentRoute);
+app.use("/api/user", userRoute);
 app.use("/api/auth", authRoutes);
 
 app.listen(config.port, () => {

@@ -22,7 +22,7 @@ const reportCardSchema = new mongoose.Schema({
   },
   Subjects: [
     {
-      subejectName: {
+      subjectName: {
         type: String,
         required: [true, "Subject Name is required."],
       },
@@ -34,18 +34,18 @@ const reportCardSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Total Marks is required."],
       },
-      subjeGrade: {
+      subjectGrade: {
         type: String,
         required: [true, "Subject Grade is required."],
       },
     },
   ],
 
-  garndTotalObtained: {
+  grandTotalObtained: {
     type: Number,
     required: [true, "Grand Total Obtained is required."],
   },
-  garndTotalMarks: {
+  grandTotalMarks: {
     type: Number,
     required: [true, "Grand Total Marks is required."],
   },
@@ -70,5 +70,5 @@ const reportCardSchema = new mongoose.Schema({
   },
 });
 
-const model = mongoose.model("StudentResult", studentResultSchema);
+const model = mongoose.model("ReportCard", reportCardSchema);
 export default model;
