@@ -4,8 +4,8 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/api/login", authController.login);
+router.post("/login", authController.login);
 
-router.post("/api/register", authController.register);
+router.post("/register", authController.register);
 
 export default router;
