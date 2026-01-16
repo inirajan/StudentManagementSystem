@@ -73,7 +73,7 @@ const deleteTeacher = async (req, res) => {
 
 const getClassStudents = async (req, res) => {
   try {
-    const data = await teacherService.getClassStudents(req.user._id);
+    const data = await teacherService.getClassStudent(req.user._id);
     res.json({ success: true, data });
   } catch (err) {
     res.status(err.status || 400).json({ message: err.message });
