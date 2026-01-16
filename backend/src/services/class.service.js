@@ -1,4 +1,5 @@
 import Class from "../models/Class.js";
+import Teacher from "../models/Teacher.js";
 
 const createClass = async (data) => {
   const exists = await Class.findOne({
@@ -11,7 +12,18 @@ const createClass = async (data) => {
     throw new Error("Class already exists for this academic year");
   }
 
-  return await Class.create(data);
+  const newClass = await Class.create(data);
+
+  if (data.classTeacher) {
+    const teacherProfile = await Teacher.finOne({ user: data.classTeacher });
+
+    if (teacherProfile) {
+      teacherProfile.classTeacherOf = newClass._id; //setting class class teacher
+      await teacherProfile.save();
+    }
+  }
+
+  return newClass;
 };
 
 const getAllClasses = async () => {

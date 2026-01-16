@@ -11,7 +11,7 @@ const createStudentProfile = async (data) => {
       message: "Student profile already exists.",
     };
 
-  return await Student.create(data);
+  return await authService.register(data);
 };
 
 const getStudents = async (query) => {
