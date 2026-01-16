@@ -18,6 +18,7 @@ const createClass = async (data) => {
     const teacherProfile = await Teacher.finOne({ user: data.classTeacher });
 
     if (teacherProfile) {
+      //
       teacherProfile.classTeacherOf = newClass._id; //setting class class teacher
       await teacherProfile.save();
     }
