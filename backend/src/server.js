@@ -7,9 +7,11 @@ import config from "./config/config.js";
 import assignmentRoutes from "./routes/assignment.route.js";
 import authRoutes from "./routes/auth.route.js";
 import classRoutes from "./routes/class.route.js";
-import studentRoutes from "./routes/student.route.js";
-import userRoutes from "./routes/user.route.js";
 import dashboardRoutes from "./routes/dashboard.route.js";
+import reportCardRoutes from "./routes/reporCard.route.js";
+import studentRoutes from "./routes/student.route.js";
+import teacherRoutes from "./routes/teacher.route.js";
+import userRoutes from "./routes/user.route.js";
 
 const app = express();
 
@@ -21,8 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/teacher", teacherRoutes);
 app.use("/api/class", classRoutes);
 app.use("/api/assignment", assignmentRoutes);
+app.use("api/report-card", reportCardRoutes);
 app.use("/api/student/dashboard", assignmentRoutes);
 
 app.listen(config.port, () => {
