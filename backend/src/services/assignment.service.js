@@ -1,7 +1,10 @@
 import Assignment from "../models/Assignment.js";
 
-const createAssignment = async (data) => {
-  const assignment = await Assignment.create(data);
+const createAssignment = async (data, fileUrl) => {
+  const assignment = await Assignment.create({
+    ...data,
+    fileUrl: fileUrl || null,
+  });
 
   return assignment;
 };
@@ -15,7 +18,10 @@ const getAssignmentsByClass = async (classId) => {
 };
 
 const getAssignmentById = async (id) => {
-  const assignment = await Assignment.findById(id).populate("classRoom");
+  const assignment = await Assignment.findById(id).populate(
+    "classRoom",
+    "grade section"
+  );
 
   if (!assignment)
     throw {
@@ -49,22 +55,48 @@ const deleteAssignment = async (id) => {
       message: "Assignment not Found.",
     };
 
-  //if student have submitted then converting id into string
-  const hasSubmitted = assignment.submissions.som(
-    (subId) => subId.toString() === studentId.toString()
+  return { message: "Assignment deleted successfully." };
+};
+
+const submitAssignment = async (assignmentId, studentId, link) => {
+  const assignment = await Assignment.findById(assignmentId);
+
+  if (!assignment) throw { status: 404, message: "Not found." };
+  const exists = assignment.submissions.some(
+    (s) => s.student.toString() === studentId.toString()
   );
 
-  if (hasSubmitted)
-    throw {
-      status: 400,
-      message: "You have already sumbitted the assignment.",
-    };
+  if (exists) throw { status: 400, message: "Already submitted." };
+  assignment.submissions.push({
+    student: studentId,
+    submissionLink: link || "",
+  });
 
-  //adding student to submission
-  assignment.submissions.push(studentId);
   await assignment.save();
 
-  return { message: "Assginment submitted successfully." };
+  return { message: "Submitted." };
+};
+
+const checkAssignment = async (assignmentId, studentId, marks, remarks) => {
+  const assignment = await Assignment.findById(assignmentId);
+
+  if (!assignment) throw { status: 404, message: "Not found." };
+
+  const index = assignment.submissions.findIndex(
+    (s) => s.student.toString() === studentId.toString()
+  );
+
+  if (index === -1) throw { status: 404, message: "Submission not found." };
+
+  assignment.submissions[index].marks = marks;
+
+  assignment.submissions[index].remarks = remarks;
+
+  assignment.submissions[index].isChecked = true;
+
+  await assignment.save();
+
+  return { message: "Checked." };
 };
 
 export default {
@@ -73,4 +105,6 @@ export default {
   getAssignmentById,
   updateAssginment,
   deleteAssignment,
+  submitAssignment,
+  checkAssignment,
 };

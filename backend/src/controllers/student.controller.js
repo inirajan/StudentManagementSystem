@@ -33,7 +33,12 @@ const getStudentById = async (req, res) => {
 
 const updatStudent = async (req, res) => {
   try {
-    const data = await studentService.updatStudent(req.params.id, req.body);
+    const data = await studentService.updatStudent(
+      req.params.id,
+      req.body,
+      req.user.role,
+      req.user._id
+    );
 
     res.status(200).json({ success: true, data });
   } catch (error) {

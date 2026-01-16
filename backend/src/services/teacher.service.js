@@ -1,6 +1,7 @@
 import Teacher from "../models/Teacher.js";
 import Class from "../models/Class.js";
 import User from "../models/User.js";
+import Student from "../models/Student.js";
 import authService from "../services/auth.service.js";
 
 const createTeacherProfile = async (data) => {
@@ -60,15 +61,21 @@ const getTeacherById = async (id) => {
   return teacher;
 };
 
-const updateTeacher = async (id) => {
-  const teacher = await Teacher.findByIdAndUpdate(id, data, {
-    new: true,
-  })
-    .populate("user", "name eamil phone")
-    .populate("classTeacherOf", "grade section")
-    .populate("assignedClasses.calss", "grade section");
+const updateTeacher = async (id, data, requestorRole, requestorId) => {
+  const teacher = await Teacher.findById(id);
 
-  return teacher;
+  if (!teacher) throw { status: 404, message: "Teacher not found" };
+
+  if (
+    requestorRole !== "ADMIN" &&
+    teacher.user.toString() !== requestorId.toString()
+  ) {
+    throw { status: 403, message: "You can only update your own profile." };
+  }
+
+  return await Teacher.findByIdAndUpdate(id, data, {
+    new: true,
+  });
 };
 
 const deleteTeacher = async (id) => {
@@ -88,6 +95,20 @@ const deleteTeacher = async (id) => {
   return { message: "Teacher deleted successfully." };
 };
 
+const getClassStudent = async (teacherUserId) => {
+  const teacher = await Teacher.findOne({ user: teacherUserId });
+
+  if (!teacher || !teacher.classTeacherOf) {
+    throw { status: 404, message: "You are not assigned as a Class Teacher." };
+  }
+
+  // Return students with embedded parent info visible
+  return await Student.find({ classRoom: teacher.classTeacherOf }).populate(
+    "user",
+    "name email phone rollNumber"
+  );
+};
+
 export default {
   createTeacherProfile,
   assignSubjectToTeacher,
@@ -95,4 +116,5 @@ export default {
   getTeacherById,
   updateTeacher,
   deleteTeacher,
+  getClassStudent,
 };
