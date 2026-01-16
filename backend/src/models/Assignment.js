@@ -21,14 +21,17 @@ const assignmentSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Due date is required."],
   },
-
+  fileUrl: { type: String },
   submissions: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
+      student: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },
+      submissionLink: { type: String },
+      submittedAt: { type: Date, default: Date.now },
+      marks: { type: Number },
+      remarks: { type: String },
+      isChecked: { type: Boolean, default: false },
     },
   ],
-
   createdAt: {
     type: Date,
     default: Date.now(),

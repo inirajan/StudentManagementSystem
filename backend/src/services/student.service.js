@@ -40,10 +40,8 @@ const getStudentById = async (id) => {
   return student;
 };
 
-const updatStudent = async (id, data) => {
-  const student = await Student.findByIdAndUpdate(id, data, { new: true })
-    .populate("user", "-password")
-    .populate("classRoom");
+const updatStudent = async (id, data, requestorRole, requestorId) => {
+  const student = await Student.findById(id);
 
   if (!student)
     throw {
@@ -51,7 +49,16 @@ const updatStudent = async (id, data) => {
       message: "Student not found.",
     };
 
-  return student;
+  if (
+    requestorRole !== "ADMIN" &&
+    student.user.toString() !== requestorId.toString()
+  ) {
+    throw { status: 403, message: "You can only update your own profile." };
+  }
+
+  return await Student.findByIdAndUpdate(id, data, { new: true })
+    .populate("user", "-password")
+    .populate("classRoom");
 };
 
 const deleteStudent = async (id) => {

@@ -1,18 +1,37 @@
 import express from "express";
 import teacherController from "../controllers/teacher.controller.js";
+import roleBasedAuth from "../middlewares/roleBasedAuth.js";
 
 const router = express.Router();
 
-router.post("/", teacherController.createStudentProfile);
+router.post(
+  "/",
+  roleBasedAuth(["ADMIN"]),
+  teacherController.createStudentProfile
+);
 
-router.get("/", teacherController.getAllTeachers);
+router.get("/", roleBasedAuth(["ADMIN"]), teacherController.getAllTeachers);
 
-router.get("/:id", teacherController.getStudentById);
+router.get("/:id", roleBasedAuth(["ADMIN"]), teacherController.getStudentById);
 
-router.put("/:id", teacherController.updateTeacher);
+router.put("/:id", roleBasedAuth(["ADMIN"]), teacherController.updateTeacher);
 
-router.delete("/:id", teacherController.deleteTeacher);
+router.get(
+  "/my-student",
+  roleBasedAuth(["ADMIN", "TEACHER"]),
+  teacherController.getClassStudents
+);
 
-router.post("/:id/assign-subject", teacherController.assignSubjectToTeacher);
+router.delete(
+  "/:id",
+  roleBasedAuth(["ADMIN"]),
+  teacherController.deleteTeacher
+);
+
+router.post(
+  "/:id/assign-subject",
+  roleBasedAuth(["ADMIN"]),
+  teacherController.assignSubjectToTeacher
+);
 
 export default router;

@@ -48,7 +48,12 @@ const getStudentById = async (req, res) => {
 
 const updateTeacher = async (req, res) => {
   try {
-    const data = teacherService.updateTeacher(req.params.id, req.body);
+    const data = teacherService.updateTeacher(
+      req.params.id,
+      req.body,
+      req.user.role,
+      req.user._id
+    );
 
     res.status(201).json({ success: true, data });
   } catch (error) {
@@ -66,6 +71,15 @@ const deleteTeacher = async (req, res) => {
   }
 };
 
+const getClassStudents = async (req, res) => {
+  try {
+    const data = await teacherService.getClassStudents(req.user._id);
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(err.status || 400).json({ message: err.message });
+  }
+};
+
 export default {
   createStudentProfile,
   getAllTeachers,
@@ -73,4 +87,5 @@ export default {
   getStudentById,
   updateTeacher,
   deleteTeacher,
+  getClassStudents,
 };
