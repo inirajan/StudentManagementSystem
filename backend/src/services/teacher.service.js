@@ -70,7 +70,10 @@ const updateTeacher = async (id, data, requestorRole, requestorId) => {
     requestorRole !== "ADMIN" &&
     teacher.user.toString() !== requestorId.toString()
   ) {
-    throw { status: 403, message: "You can only update your own profile." };
+    throw {
+      status: 403,
+      message: "You can only update your own profile.",
+    };
   }
 
   return await Teacher.findByIdAndUpdate(id, data, {

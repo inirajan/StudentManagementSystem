@@ -14,7 +14,11 @@ router.get("/", roleBasedAuth(["ADMIN"]), teacherController.getAllTeachers);
 
 router.get("/:id", roleBasedAuth(["ADMIN"]), teacherController.getStudentById);
 
-router.put("/:id", roleBasedAuth(["ADMIN"]), teacherController.updateTeacher);
+router.put(
+  "/:id",
+  roleBasedAuth(["ADMIN"], ["TEACHER"]),
+  teacherController.updateTeacher
+);
 
 router.get(
   "/my-student",

@@ -70,10 +70,10 @@ const deleteStudent = async (id) => {
       message: "Student not found.",
     };
 
-  // delete from user
+  // delete from user model
   await User.findByIdAndDelete(student.user);
 
-  // delete from student
+  // delete from student model
   await Student.findByIdAndDelete(id);
 
   return { message: "Student profile and user account deleted successfully." };
