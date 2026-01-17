@@ -12,7 +12,7 @@ const teacherSchema = new mongoose.Schema({
   classTeacherOf: {
     type: mongoose.Schema.ObjectId,
     ref: "Class",
-    default: "null",
+    default: null,
   },
   assignedClasses: [
     {

@@ -25,13 +25,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/user", auth, userRoutes);
-app.use("/api/student", auth, studentRoutes);
-app.use("/api/teacher", auth, teacherRoutes);
-app.use("/api/class", classRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/student", studentRoutes);
+app.use("/api/teacher", teacherRoutes);
+app.use("/api/class", auth, classRoutes);
 app.use("/api/assignment", auth, assignmentRoutes);
-app.use("/api/report-card", reportCardRoutes);
-app.use("/api/student/dashboard", dashboardRoutes);
+app.use("/api/report-card", auth, reportCardRoutes);
+app.use("/api/student/dashboard", auth, dashboardRoutes);
 
 app.listen(config.port, () => {
   console.log(`Server running at port: ${config.port}`);

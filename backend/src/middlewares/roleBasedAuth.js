@@ -1,6 +1,8 @@
 const roleBasedAuth = (allowedRoles) => {
   return (req, res, next) => {
-    if (req.user.role.includes(allowedRoles)) return next();
+    if (allowedRoles.includes(req.user.role)) {
+      return next();
+    }
 
     res.status(403).json({
       message:

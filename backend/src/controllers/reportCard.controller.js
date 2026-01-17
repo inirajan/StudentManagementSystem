@@ -1,12 +1,11 @@
 import reportCardService from "../services/reportCard.service.js";
 
-const createReporCard = async (req, res) => {
+const createReportCard = async (req, res) => {
   try {
-    const data = await reportCardService.createReporCard(req.body);
-
+    const data = await reportCardService.createReportCard(req.body);
     res.status(201).json({ success: true, data });
-  } catch (error) {
-    res.status(error.status || 400).json({ message: error.message });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
   }
 };
 
@@ -15,11 +14,56 @@ const getStudentReports = async (req, res) => {
     const data = await reportCardService.getStudentReports(
       req.params.studentId
     );
-
-    res.status(201).json({ success: true, data });
-  } catch (error) {
-    res.status(error.status || 400).json({ message: error.message });
+    res.json({ success: true, data });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
   }
 };
 
-export default { createReporCard, getStudentReports };
+const getAllReportCards = async (req, res) => {
+  try {
+    const data = await reportCardService.getAllReportCards();
+    res.json({ success: true, data });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+const getReportCardById = async (req, res) => {
+  try {
+    const data = await reportCardService.getReportCardById(req.params.id);
+    res.json({ success: true, data });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+const updateReportCard = async (req, res) => {
+  try {
+    const data = await reportCardService.updateReportCard(
+      req.params.id,
+      req.body
+    );
+    res.json({ success: true, data });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+const deleteReportCard = async (req, res) => {
+  try {
+    const data = await reportCardService.deleteReportCard(req.params.id);
+    res.json(data);
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+export default {
+  createReportCard,
+  getStudentReports,
+  getAllReportCards,
+  getReportCardById,
+  updateReportCard,
+  deleteReportCard,
+};

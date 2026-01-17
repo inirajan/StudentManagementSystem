@@ -26,7 +26,18 @@ const register = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("authToken");
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    res.status(error?.status || 409).send(error?.message);
+  }
+};
+
 export default {
   login,
   register,
+  logout,
 };
