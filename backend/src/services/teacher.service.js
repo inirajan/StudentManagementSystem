@@ -2,7 +2,7 @@ import Teacher from "../models/Teacher.js";
 import Class from "../models/Class.js";
 import User from "../models/User.js";
 import Student from "../models/Student.js";
-import authService from "../services/auth.service.js";
+import { ROLE_ADMIN } from "../constants/roles.js";
 
 const createTeacherProfile = async (data) => {
   const exist = await Teacher.findOne({ user: data.user });
@@ -13,7 +13,21 @@ const createTeacherProfile = async (data) => {
       message: "Teacher Profile already exists.",
     };
 
-  const teacher = await authService.register(data);
+  console.log("Raw classTeacherOf value:", `"${data.classTeacherOf}"`);
+
+  if (
+    data.classTeacherOf &&
+    !mongoose.Types.ObjectId.isValid(data.classTeacherOf)
+  ) {
+    console.log("Invalid ObjectId detected. Removing classTeacherOf field.");
+    delete data.classTeacherOf;
+  }
+
+  if (data.classTeacherOf === "null " || data.classTeacherOf === " ") {
+    delete data.classTeacherOf;
+  }
+
+  const teacher = await Teacher.create(data);
 
   return teacher;
 };
@@ -66,18 +80,28 @@ const updateTeacher = async (id, data, requestorRole, requestorId) => {
 
   if (!teacher) throw { status: 404, message: "Teacher not found" };
 
-  if (
-    requestorRole !== "ADMIN" &&
-    teacher.user.toString() !== requestorId.toString()
-  ) {
+  const isAdmin = requestorRole.includes(ROLE_ADMIN);
+
+  if (!isAdmin && teacher.user.toString() !== requestorId.toString()) {
     throw {
       status: 403,
       message: "You can only update your own profile.",
     };
   }
 
+  if (data.classTeacherOf !== undefined) {
+    if (
+      data.classTeacherOf === "null" ||
+      data.classTeacherOf === "" ||
+      !mongoose.Types.ObjectId.isValid(data.classTeacherOf)
+    ) {
+      data.classTeacherOf = null;
+    }
+  }
+
   return await Teacher.findByIdAndUpdate(id, data, {
     new: true,
+    runValidators: true,
   });
 };
 

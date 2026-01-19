@@ -1,29 +1,39 @@
 import express from "express";
 import studentController from "../controllers/student.controller.js";
 import roleBasedAuth from "../middlewares/roleBasedAuth.js";
+import auth from "../middlewares/auth.js";
+import { ROLE_ADMIN, ROLE_STUDENT } from "../constants/roles.js";
 
 const router = express.Router();
 
 router.post(
   "/",
-  roleBasedAuth(["ADMIN"]),
-  studentController.createStudentProfile
+  auth,
+  roleBasedAuth(ROLE_ADMIN),
+  studentController.createStudentProfile,
 );
 
-router.get("/", roleBasedAuth(["ADMIN"]), studentController.getStudents);
+router.get("/", auth, roleBasedAuth(ROLE_ADMIN), studentController.getStudents);
 
-router.get("/:id", roleBasedAuth(["ADMIN"]), studentController.getStudentById);
+router.get(
+  "/:id",
+  auth,
+  roleBasedAuth(ROLE_ADMIN),
+  studentController.getStudentById,
+);
 
 router.put(
   "/:id",
-  roleBasedAuth(["ADMIN", "STUDENT"]),
-  studentController.updatStudent
+  auth,
+  roleBasedAuth(ROLE_ADMIN, ROLE_STUDENT),
+  studentController.updatStudent,
 );
 
 router.delete(
   "/:id",
-  roleBasedAuth(["ADMIN"]),
-  studentController.deleteStudent
+  auth,
+  roleBasedAuth(ROLE_ADMIN),
+  studentController.deleteStudent,
 );
 
 export default router;

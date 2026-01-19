@@ -1,6 +1,6 @@
+import { ROLE_ADMIN } from "../constants/roles.js";
 import Student from "../models/Student.js";
 import User from "../models/User.js";
-import authService from "./auth.service.js";
 
 const createStudentProfile = async (data) => {
   const existingProfile = await Student.findOne({ user: data.user });
@@ -11,7 +11,7 @@ const createStudentProfile = async (data) => {
       message: "Student profile already exists.",
     };
 
-  return await authService.register(data);
+  return await Student.create(data);
 };
 
 const getStudents = async (query) => {
@@ -49,11 +49,13 @@ const updatStudent = async (id, data, requestorRole, requestorId) => {
       message: "Student not found.",
     };
 
-  if (
-    requestorRole !== "ADMIN" &&
-    student.user.toString() !== requestorId.toString()
-  ) {
-    throw { status: 403, message: "You can only update your own profile." };
+  const isAdmin = requestorRole.includes(ROLE_ADMIN);
+
+  if (!isAdmin && student.user.toString() !== requestorId.toString()) {
+    throw {
+      status: 403,
+      message: "You can only update your own profile.",
+    };
   }
 
   return await Student.findByIdAndUpdate(id, data, { new: true })
