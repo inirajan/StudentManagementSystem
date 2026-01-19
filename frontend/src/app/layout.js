@@ -4,7 +4,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "School Management System",
+  title: "Student Management System",
   description: "Efficiently manage students and teachers",
 };
 

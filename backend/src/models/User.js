@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Gender is required."],
     enum: ["MALE", "FEMALE", "OTHERS"],
-    default: ["MALE"],
+    default: "MALE",
   },
 
   address: {
