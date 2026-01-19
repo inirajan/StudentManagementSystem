@@ -1,228 +1,243 @@
 import React, { useState, useEffect } from "react";
-import api from "../api/axios";  // Adjust the path to your axios instance
+import api from "../api/axios";
+import {
+  FaEdit,
+  FaTrash,
+  FaPlus,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 
 const Teacher = () => {
-  const [users, setUsers] = useState([]);
+  const [teachers, setTeachers] = useState([]); // Staff profiles
+  const [users, setUsers] = useState([]); // Potential teachers from User model
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const [teachersPerPage] = useState(5);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [itemsPerPage] = useState(5);
+
   const [newTeacher, setNewTeacher] = useState({
-    name: "",
-    age: "",
-    email: "",
-    phone: "",
-    gender: "MALE",
-    address: {
-      city: "",
-      province: "",
-    },
-    role: ["TEACHER"],
+    user: "", // Selected User ID
+    qualification: "",
+    classTeacherOf: "",
   });
 
-  // Fetch users from the backend and filter only teachers
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await api.get("/user");
-        const filteredUsers = response.data.data.filter((user) =>
-          user.role.includes("TEACHER")
-        );
-        setUsers(filteredUsers);
-      } catch (err) {
-        setError("Failed to fetch users");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const [userRes, teacherRes] = await Promise.all([
+        api.get("/user"),
+        api.get("/teacher"),
+      ]);
+      // Filter users to only show those with TEACHER role for selection
+      setUsers(userRes.data.data.filter((u) => u.role.includes("TEACHER")));
+      setTeachers(teacherRes.data.data);
+    } catch (err) {
+      console.error("Failed to fetch data", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Pagination logic
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleAddTeacher = async (e) => {
     e.preventDefault();
-    try {
-      const response = await api.post("/user", newTeacher);
-      setUsers([response.data.data, ...users]); // Add new teacher at the top
-      setNewTeacher({
-        name: "",
-        age: "",
-        email: "",
-        phone: "",
-        gender: "MALE",
-        address: {
-          city: "",
-          province: "",
-        },
-        role: ["TEACHER"],
-      });
-    } catch (error) {
-      setError("Failed to add teacher");
-      console.error(error);
-    }
-  };
+    const submitData = { ...newTeacher };
 
-  const handleDelete = async (id) => {
+    // FIX for BSONError: Convert empty string to null so backend validation doesn't fail
+    if (!submitData.classTeacherOf || submitData.classTeacherOf.trim() === "") {
+      submitData.classTeacherOf = null;
+    }
+
     try {
-      await api.delete(`/user/${id}`);
-      setUsers(users.filter((user) => user._id !== id)); // Remove from state
+      await api.post("/teacher", submitData);
+      alert("Teacher Profile Created Successfully");
+      setShowAddForm(false);
+      setNewTeacher({ user: "", qualification: "", classTeacherOf: "" });
+      fetchData();
     } catch (err) {
-      setError("Failed to delete teacher");
-      console.error(err);
+      alert(err.response?.data?.message || "Failed to create teacher profile");
     }
   };
 
-  const handleSearchChange = (e) => setSearchQuery(e.target.value.toLowerCase());
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = teachers.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(teachers.length / itemsPerPage);
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchQuery)
-  );
-
-  const indexOfLastTeacher = currentPage * teachersPerPage;
-  const indexOfFirstTeacher = indexOfLastTeacher - teachersPerPage;
-  const currentTeachers = filteredUsers.slice(indexOfFirstTeacher, indexOfLastTeacher);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="p-6 text-center">Loading...</div>;
 
   return (
-    <div className="p-4">
-      {/* Add Teacher Form */}
-      <div className="bg-white p-6 rounded shadow mb-4">
-        <h2 className="text-xl font-semibold mb-4">Add New Teacher</h2>
-        <form onSubmit={handleAddTeacher}>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                value={newTeacher.name}
-                onChange={(e) => setNewTeacher({ ...newTeacher, name: e.target.value })}
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Age</label>
-              <input
-                type="text"
-                value={newTeacher.age}
-                onChange={(e) => setNewTeacher({ ...newTeacher, age: e.target.value })}
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                required
-              />
-            </div>
-          </div>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Teacher Management
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Manage academic staff and qualifications
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-white transition ${showAddForm ? "bg-gray-600" : "bg-blue-600 hover:bg-blue-700"}`}
+        >
+          {showAddForm ? (
+            <>
+              <FaTimes /> <span>Cancel</span>
+            </>
+          ) : (
+            <>
+              <FaPlus /> <span>Add Teacher</span>
+            </>
+          )}
+        </button>
+      </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                value={newTeacher.email}
-                onChange={(e) => setNewTeacher({ ...newTeacher, email: e.target.value })}
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Phone</label>
-              <input
-                type="text"
-                value={newTeacher.phone}
-                onChange={(e) => setNewTeacher({ ...newTeacher, phone: e.target.value })}
-                className="mt-1 p-2 border border-gray-300 rounded w-full"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Gender</label>
-            <select
-              value={newTeacher.gender}
-              onChange={(e) => setNewTeacher({ ...newTeacher, gender: e.target.value })}
-              className="mt-1 p-2 border border-gray-300 rounded w-full"
-            >
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-              <option value="OTHERS">Other</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md mt-4"
+      {showAddForm && (
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8 animate-fadeIn">
+          <h2 className="text-lg font-bold mb-4 text-blue-600">
+            Create Teacher Profile
+          </h2>
+          <form
+            onSubmit={handleAddTeacher}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4"
           >
-            Add Teacher
-          </button>
-        </form>
-      </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Select Teacher Name
+              </label>
+              <select
+                required
+                className="w-full border p-2 rounded bg-white"
+                value={newTeacher.user}
+                onChange={(e) =>
+                  setNewTeacher({ ...newTeacher, user: e.target.value })
+                }
+              >
+                <option value="">Choose User...</option>
+                {users.map((u) => (
+                  <option key={u._id} value={u._id}>
+                    {u.name} ({u.email})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Qualification
+              </label>
+              <input
+                placeholder="e.g. M.Ed in English"
+                className="w-full border p-2 rounded"
+                value={newTeacher.qualification}
+                onChange={(e) =>
+                  setNewTeacher({
+                    ...newTeacher,
+                    qualification: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Class Teacher Of ID (Optional)
+              </label>
+              <input
+                placeholder="Class Object ID"
+                className="w-full border p-2 rounded"
+                value={newTeacher.classTeacherOf}
+                onChange={(e) =>
+                  setNewTeacher({
+                    ...newTeacher,
+                    classTeacherOf: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <button
+              type="submit"
+              className="md:col-span-3 bg-blue-800 text-white rounded font-bold py-2 hover:bg-blue-900 transition"
+            >
+              Save Teacher Profile
+            </button>
+          </form>
+        </div>
+      )}
 
-      {/* Search Bar */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search by name..."
-          onChange={handleSearchChange}
-          className="p-2 border border-gray-300 rounded w-full"
-        />
-      </div>
-
-      {/* Table for displaying teachers */}
-      <table className="min-w-full table-auto border-collapse bg-white shadow rounded-md">
-        <thead>
-          <tr>
-            <th className="p-4 text-left border-b">Name</th>
-            <th className="p-4 text-left border-b">Email</th>
-            <th className="p-4 text-left border-b">Phone</th>
-            <th className="p-4 text-left border-b">Gender</th>
-            <th className="p-4 text-left border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentTeachers.map((user) => (
-            <tr key={user._id}>
-              <td className="p-4 border-b">{user.name}</td>
-              <td className="p-4 border-b">{user.email}</td>
-              <td className="p-4 border-b">{user.phone}</td>
-              <td className="p-4 border-b">{user.gender}</td>
-              <td className="p-4 border-b">
-                <button
-                  onClick={() => handleDelete(user._id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <table className="w-full text-left">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr className="text-gray-500 text-xs font-bold uppercase tracking-wider">
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Email</th>
+              <th className="px-6 py-4">Phone</th>
+              <th className="px-6 py-4">Gender</th>
+              <th className="px-6 py-4 text-center">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {currentItems.map((teacher) => (
+              <tr key={teacher._id} className="hover:bg-gray-50 transition">
+                <td className="px-6 py-4 font-bold text-gray-900">
+                  {teacher.user?.name}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {teacher.user?.email}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {teacher.user?.phone}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {teacher.user?.gender}
+                </td>
+                <td className="px-6 py-4 text-center space-x-3">
+                  <button className="text-blue-500 hover:text-blue-700">
+                    <FaEdit />
+                  </button>
+                  <button className="text-red-500 hover:text-red-700">
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {/* Pagination */}
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={() => paginate(currentPage - 1)}
-          className="px-4 py-2 bg-gray-200 text-gray-600 rounded-l-md"
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          className="px-4 py-2 bg-gray-200 text-gray-600 rounded-r-md"
-          disabled={currentPage === Math.ceil(filteredUsers.length / teachersPerPage)}
-        >
-          Next
-        </button>
+        <div className="bg-white px-6 py-4 border-t flex items-center justify-between">
+          <div className="text-xs text-gray-500">
+            Showing {indexOfFirstItem + 1} to{" "}
+            {Math.min(indexOfLastItem, teachers.length)} of {teachers.length}{" "}
+            entries
+          </div>
+          <div className="flex space-x-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              className="p-2 border rounded hover:bg-gray-100 disabled:opacity-50"
+            >
+              <FaChevronLeft size={12} />
+            </button>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              className="p-2 border rounded hover:bg-gray-100 disabled:opacity-50"
+            >
+              <FaChevronRight size={12} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
+// CRITICAL: This is what was missing to fix the SyntaxError
 export default Teacher;

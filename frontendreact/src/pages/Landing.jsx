@@ -29,7 +29,7 @@ const Landing = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     const elements = document.querySelectorAll(".fade-section");
@@ -44,7 +44,6 @@ const Landing = () => {
 
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
-
       {/* Navbar */}
       <nav
         className={`fixed w-full backdrop-blur bg-white/80 dark:bg-gray-900/80 z-50 transition-all duration-300 ${
@@ -52,8 +51,11 @@ const Landing = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center h-16">
-          <a href="#" className="text-2xl font-bold text-blue-600 hover:text-blue-500 transition">
-            StudentMS
+          <a
+            href="#"
+            className="text-2xl font-bold text-blue-600 hover:text-blue-500 transition"
+          >
+            School Managment System
           </a>
 
           <div className="hidden md:flex space-x-8">
@@ -86,7 +88,10 @@ const Landing = () => {
       </nav>
 
       {/* Hero */}
-      <section id="home" className="h-screen relative flex items-center justify-center text-center overflow-hidden">
+      <section
+        id="home"
+        className="h-screen relative flex items-center justify-center text-center overflow-hidden"
+      >
         <div className="absolute inset-0">
           <img
             src="https://beams360.com/wp-content/uploads/2024/08/School-Management-system-02-1170x580.jpg"
@@ -97,10 +102,11 @@ const Landing = () => {
         </div>
         <div className="relative z-10 max-w-3xl px-6 animate-fadeInUp">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Student Management System
+            School Management System
           </h1>
           <p className="text-xl text-gray-200 mb-8">
-            Manage students, courses, attendance & performance seamlessly
+            Manage students ,teacher, courses, attendance & performance
+            seamlessly
           </p>
           <button
             onClick={() => scrollToSection("about")}
@@ -112,7 +118,10 @@ const Landing = () => {
       </section>
 
       {/* About */}
-      <section id="about" className="py-24 bg-gray-100 dark:bg-gray-800 fade-section">
+      <section
+        id="about"
+        className="py-24 bg-gray-100 dark:bg-gray-800 fade-section"
+      >
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 px-6 items-center">
           <img
             src="https://img.freepik.com/free-photo/close-up-keyboard-glasses-with-executives-background_1098-3635.jpg"
@@ -122,7 +131,8 @@ const Landing = () => {
           <div>
             <h2 className="text-4xl font-bold mb-4">About Our System</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Our platform helps institutions manage students, grades, attendance, and performance efficiently.
+              Our platform helps institutions manage,teacher, students, grades,
+              attendance, and performance efficiently.
             </p>
             <p className="text-gray-600 dark:text-gray-300">
               Secure, modern, and fully responsive for schools & colleges.
@@ -141,11 +151,26 @@ const Landing = () => {
         </div>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 px-6 text-gray-600 dark:text-black">
           {[
-            { icon: "fas fa-user-graduate", title: "Student Records", desc: "Complete student profiles & attendance tracking." },
-            { icon: "fas fa-book-open", title: "Course Management", desc: "Create, assign and monitor courses easily." },
-            { icon: "fas fa-chart-line", title: "Analytics", desc: "Powerful reports & performance insights." }
+            {
+              icon: "fas fa-user-graduate",
+              title: "Student Records",
+              desc: "Complete student profiles & attendance tracking.",
+            },
+            {
+              icon: "fas fa-book-open",
+              title: "Course Management",
+              desc: "Create, assign and monitor courses easily.",
+            },
+            {
+              icon: "fas fa-chart-line",
+              title: "Analytics",
+              desc: "Powerful reports & performance insights.",
+            },
           ].map((service, idx) => (
-            <div key={idx} className="service-card hover:scale-105 transform transition duration-500">
+            <div
+              key={idx}
+              className="service-card hover:scale-105 transform transition duration-500"
+            >
               <i className={`${service.icon} text-5xl text-blue-600 mb-4`}></i>
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p>{service.desc}</p>
@@ -155,7 +180,10 @@ const Landing = () => {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-24 bg-gray-100 dark:bg-gray-800 fade-section">
+      <section
+        id="contact"
+        className="py-24 bg-gray-100 dark:bg-gray-800 fade-section"
+      >
         <div className="max-w-xl mx-auto text-center px-6">
           <h2 className="text-4xl font-bold mb-6">Contact Us</h2>
           <form className="space-y-4">
@@ -167,16 +195,27 @@ const Landing = () => {
             </button>
           </form>
           <div className="flex justify-center space-x-6 mt-8 text-3xl">
-            <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
-            <a href="#" className="social"><i className="fab fa-twitter"></i></a>
-            <a href="#" className="social"><i className="fab fa-instagram"></i></a>
-            <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
+            <a href="#" className="social">
+              <i className="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" className="social">
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a href="#" className="social">
+              <i className="fab fa-instagram"></i>
+            </a>
+            <a href="#" className="social">
+              <i className="fab fa-linkedin-in"></i>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Map */}
-      <section id="map" className="py-24 bg-white dark:bg-gray-900 fade-section">
+      <section
+        id="map"
+        className="py-24 bg-white dark:bg-gray-900 fade-section"
+      >
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-4">Our Location</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-10">
