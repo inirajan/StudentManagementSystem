@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 import connectDB from "./config/database.js";
 import config from "./config/config.js";
@@ -20,6 +21,15 @@ const app = express();
 connectDB();
 
 connectCloudinary();
+
+app.use(
+  cors({
+    origin: config.frontendUrl,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
