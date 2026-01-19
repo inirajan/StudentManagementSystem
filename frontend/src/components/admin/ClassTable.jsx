@@ -15,7 +15,7 @@ export default function ClassTable({ classes, onDelete }) {
         <tbody className="text-gray-600 text-sm">
           {classes.map((cls) => (
             <tr key={cls._id} className="border-b hover:bg-gray-50">
-              <td className="p-4 font-bold text-indigo-600">{cls.className}</td>
+              <td className="p-4 font-bold text-indigo-600">{cls.grade}</td>
               <td className="p-4">{cls.section}</td>
               <td className="p-4">
                 {cls.classTeacher?.user?.name || "Not Assigned"}
