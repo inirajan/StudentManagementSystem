@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Flowbite  -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        darkMode: "media",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4f46e5",
+              secondary: "#4338ca",
+            },
+          },
+        },
+        safelist: [
+          "text-green-600",
+          "focus:ring-green-500",
+          "focus:ring-green-600",
+          "bg-green-100",
+          "text-green-800",
+        ],
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans"
+  >
+    <div class="flex h-screen overflow-hidden">
+      <!-- SideBar -->
+      <aside
+        class="w-64 bg-indigo-600 dark:bg-indigo-800 flex flex-col shadow-xl z-10 transition-colors duration-300 hidden md:flex"
+      >
+        <!-- Logo -->
+        <div class="p-6">
+          <h1 class="text-2xl font-bold text-white tracking-wide">
+            School <span class="text-indigo-200">Logo</span>
+          </h1>
+        </div>
+
+        <!-- Navigation Bar -->
+
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+          <a
+            href="studentPage-design.html"
+            class="flex items-center gap-3 px-4 py-3 hover:bg-white/10 text-white rounded-xl transition-all hover:bg-white/20"
+          >
+            <i class="fa-solid fa-house w-5 text-center"></i>
+            <span class="font-medium">Dashboard</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-graduation-cap w-5 text-center"></i>
+            <span class="font-medium">Grade & Reports</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-calendar-days w-5 text-center"></i>
+            <span class="font-medium">Timetable</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-book-open w-5 text-center"></i>
+            <span class="font-medium">Assignments</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 px-4 py-3 text-indigo-100 bg-white/10 hover:text-white rounded-xl transition-all"
+          >
+            <i class="fa-solid fa-user-check w-5 text-center"></i>
+            <span class="font-medium">Attendance</span>
+          </a>
+        </nav>
+
+        <!--  Logout Button -->
+        <div class="px-4 mb-2">
+          <a
+            href="#"
+            class="flex items-center gap-4 px-4 py-3 text-indigo-100 hover:bg-white/10 hover:text-white rounded-xl transition-all group"
+          >
+            <i
+              class="fa-solid fa-right-from-bracket w-5 text-center group-hover:text-red-300 trasition-colors"
+            >
+            </i>
+            <span
+              class="font-medium group-hover:text-red-200 transition-colors"
+            >
+              Logout
+            </span>
+          </a>
+        </div>
+
+        <!-- User Profile -->
+
+        <div
+          class="p-4 m-4 bg-indigo-700/50 dark:bg-indigo-900/50 rounded-xl flex items-center gap-3 border border-indigo-500/30"
+        >
+          <div
+            class="w-10 h-10 rounded-full bg-indigo-300 flex items-center justify-center text-indigo-800 font-bold text-sm"
+          >
+            NR
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-white">Naruto</p>
+            <p class="text-xs text-indigo-200">ID:244</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+
+      <main class="flex-1 overflow-y-auto p-4 md:p-8">
+        <!-- Mobile Header -->
+
+        <header class="md:hidden flex justify-between items-center mb-6">
+          <h1 class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+            Student
+          </h1>
+          <button class="text-gray-600 dark:text-gray-300">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </header>
+
+        <!-- Top Header  -->
+
+        <header class="flex justify-between items-end mb-4 w-full">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+              Attendance
+            </h2>
+
+            <div
+              class="flex items-center justify-center gap-6 p-1 md:p-2 lg:p-4"
+            >
+              <!-- Dropdown -->
+              <div class="text-gray-500 dark:text-gray-400 mt-1">
+                <button
+                  id="dropdownDefaultButton"
+                  data-dropdown-toggle="dropdown"
+                  type="button"
+                  class="inline-flex items-center ml-2 text-white bg-indigo-600 hover:bg-indigo-700 border border-transparent font-medium text-sm rounded-lg px-4 py-2 shadow focus:ring-2 focus:ring-indigo-300 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                >
+                  Class
+                  <svg
+                    class="w-4 h-4 ml-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m19 9-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Dropdown Menu -->
+              <div
+                id="dropdown"
+                class="z-20 hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg w-44 mt-2"
+              >
+                <ul class="p-2 text-sm text-gray-700 dark:text-gray-200">
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >10 A</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >10 B</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >9 A</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >9 B</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      >8 A</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Datepicker -->
+              <div class="relative max-w-sm">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <i class="fa-solid fa-calendar text-gray-500"></i>
+                </div>
+
+                <input
+                  id="datepicker-autohide"
+                  datepicker
+                  datepicker-autohide
+                  type="text"
+                  placeholder="Select date"
+                  class="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 text-sm rounded-lg shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Notification -->
+          <div class="hidden md:flex gap-3">
+            <button
+              class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+            >
+              <i class="fa-solid fa-bell text-xl"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+              Attendance Sheet
+            </h3>
+          </div>
+          <table class="w-full text-sm">
+            <thead class="border-b border-gray-200 dark:border-gray-700">
+              <tr>
+                <th class="text-center py-2 text-gray-600 dark:text-gray-400">
+                  Rollno
+                </th>
+                <th class="text-center py-2 text-gray-600 dark:text-gray-400">
+                  Students
+                </th>
+                <th class="text-center py-2 text-gray-600 dark:text-gray-400">
+                  Attendance Codes
+                </th>
+                <th class="text-center py-2 text-gray-600 dark:text-gray-400">
+                  Comments
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  01
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  John Doe
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  <!-- CheckBOX -->
+                  <div class="flex items-center justify-between">
+                    <!-- Present Student CheckBOX -->
+
+                    <div class="flex items-center px-1">
+                      <input
+                        checked
+                        id="green-checkbox-1"
+                        type="checkbox"
+                        class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="green-checkbox-1"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >P</label
+                      >
+                    </div>
+                    <!-- Absent Student CheckBOX -->
+                    <div class="flex items-center px-1">
+                      <input
+                        id="checkbox-Absent-1"
+                        type="checkbox"
+                        value=""
+                        class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+                      <label
+                        for="checkbox-Absent-1"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >A</label
+                      >
+                    </div>
+                    <!-- Late -->
+                    <div class="flex items-center px-1">
+                      <input
+                        id="checkbox-late-1"
+                        type="checkbox"
+                        class="w-4 h-4 text-yellow-400 bg-gray-100 border-default-medium rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="checkbox-late-1"
+                        class="select-none ms-2 text-sm font-medium text-heading"
+                        >L</label
+                      >
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 text-center">
+                  <i class="fa-regular fa-comment"></i>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  02
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  Karl Lagerfeld
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  <!-- CheckBOX -->
+                  <div class="flex items-center justify-between">
+                    <!-- Present Student CheckBOX -->
+
+                    <div class="flex items-center px-1">
+                      <input
+                        id="green-checkbox-2"
+                        type="checkbox"
+                        class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="green-checkbox-2"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >P</label
+                      >
+                    </div>
+                    <!-- Absent Student CheckBOX -->
+                    <div class="flex items-center px-1">
+                      <input
+                        checked
+                        id="checkbox-Absent-2"
+                        type="checkbox"
+                        value=""
+                        class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+                      <label
+                        for="checkbox-Absent-2"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >A</label
+                      >
+                    </div>
+                    <!-- Late -->
+                    <div class="flex items-center px-1">
+                      <input
+                        id="checkbox-late-2"
+                        type="checkbox"
+                        class="w-4 h-4 text-yellow-400 bg-gray-100 border-default-medium rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="checkbox-late-2"
+                        class="select-none ms-2 text-sm font-medium text-heading"
+                        >L</label
+                      >
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 text-center">
+                  <i class="fa-regular fa-comment text-green-500"></i>
+                </td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  03
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  Ava Desuza
+                </td>
+                <td class="py-3 text-center text-gray-800 dark:text-gray-300">
+                  <!-- CheckBOX -->
+                  <div class="flex items-center justify-between">
+                    <!-- Present Student CheckBOX -->
+
+                    <div class="flex items-center px-1">
+                      <input
+                        id="green-checkbox-3"
+                        type="checkbox"
+                        class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="green-checkbox-3"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >P</label
+                      >
+                    </div>
+                    <!-- Absent Student CheckBOX -->
+                    <div class="flex items-center px-1">
+                      <input
+                        id="checkbox-Absent-3"
+                        type="checkbox"
+                        value=""
+                        class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+                      <label
+                        for="checkbox-Absent-3"
+                        class="select-none ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >A</label
+                      >
+                    </div>
+                    <!-- Late -->
+                    <div class="flex items-center px-1">
+                      <input
+                        checked
+                        id="checkbox-late-3"
+                        type="checkbox"
+                        class="w-4 h-4 text-yellow-400 bg-gray-100 border-default-medium rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:bg-gray-700 dark:border-gray-600 focus:ring-2"
+                      />
+
+                      <label
+                        for="checkbox-late-3"
+                        class="select-none ms-2 text-sm font-medium text-heading"
+                        >L</label
+                      >
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 text-center">
+                  <i class="fa-regular fa-comment"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.4.1/flowbite.min.js"></script>
+  </body>
+</html>
