@@ -19,8 +19,8 @@ const getAssignmentsByClass = async (classId) => {
 
 const getAssignmentById = async (id) => {
   const assignment = await Assignment.findById(id).populate(
-    "classRoom",
-    "grade section"
+    "grade",
+    "grade section",
   );
 
   if (!assignment)
@@ -63,7 +63,7 @@ const submitAssignment = async (assignmentId, studentId, link) => {
 
   if (!assignment) throw { status: 404, message: "Not found." };
   const exists = assignment.submissions.some(
-    (s) => s.student.toString() === studentId.toString()
+    (s) => s.student.toString() === studentId.toString(),
   );
 
   if (exists) throw { status: 400, message: "Already submitted." };
@@ -83,7 +83,7 @@ const checkAssignment = async (assignmentId, studentId, marks, remarks) => {
   if (!assignment) throw { status: 404, message: "Not found." };
 
   const index = assignment.submissions.findIndex(
-    (s) => s.student.toString() === studentId.toString()
+    (s) => s.student.toString() === studentId.toString(),
   );
 
   if (index === -1) throw { status: 404, message: "Submission not found." };

@@ -12,6 +12,7 @@ import dashboardRoutes from "./routes/dashboard.route.js";
 import reportCardRoutes from "./routes/reportCard.route.js";
 import studentRoutes from "./routes/student.route.js";
 import teacherRoutes from "./routes/teacher.route.js";
+import subjectRoutes from "./routes/subject.route.js";
 import userRoutes from "./routes/user.route.js";
 import auth from "./middlewares/auth.js";
 import connectCloudinary from "./config/cloudinary.js";
@@ -42,6 +43,7 @@ app.use("/api/class", auth, classRoutes);
 app.use("/api/assignment", auth, assignmentRoutes);
 app.use("/api/report-card", auth, reportCardRoutes);
 app.use("/api/student/dashboard", auth, dashboardRoutes);
+app.use("/api/subject", subjectRoutes);
 
 app.listen(config.port, () => {
   console.log(`Server running at port: ${config.port}`);

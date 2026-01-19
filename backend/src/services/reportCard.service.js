@@ -50,13 +50,16 @@ const getStudentReports = async (studentId) => {
 };
 
 const getAllReportCards = async () => {
-  return await ReportCard.find().populate("student", "name email");
+  return await ReportCard.find().populate({
+    path: "student",
+    populate: { path: "user", select: "name" },
+  });
 };
 
 const getReportCardById = async (id) => {
   const report = await ReportCard.findById(id).populate(
     "student",
-    "name email"
+    "name email",
   );
 
   if (!report) throw { status: 404, message: "Report card not found" };

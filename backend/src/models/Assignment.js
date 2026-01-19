@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const assignmentSchema = new mongoose.Schema({
-  classRoom: {
+  grade: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Class",
     required: [true, "Class reference is required."],
