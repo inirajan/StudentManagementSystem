@@ -17,7 +17,7 @@ const reportCardSchema = new mongoose.Schema({
   examType: {
     type: String,
     required: [true, "Exam Type is required."],
-    enum: ["Midterm", "Final", "Firstterm"],
+    enum: ["First Term", "Mid Term", "Final Term"],
     default: "Final",
   },
   Subjects: [

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -24,6 +23,7 @@ const userSchema = new mongoose.Schema({
 
         return emailRegex.test(value);
       },
+      message: "Invalid email address",
     },
   },
 
@@ -40,17 +40,16 @@ const userSchema = new mongoose.Schema({
     maxLength: [13, "Invalid phone number."],
   },
 
-
-
   role: {
     type: [String],
-    required: [true, "Role is required."],
-    enum: ["ADMIN", "STUDENT", "TEACHER", "PARENT" ],
+    enum: ["ADMIN", "STUDENT", "TEACHER"],
   },
+
   gender: {
-    type: [String],
+    type: String,
     required: [true, "Gender is required."],
-    enum: ["Male", "Female", "Others"],
+    enum: ["MALE", "FEMALE", "OTHERS"],
+    default: ["MALE"],
   },
 
   address: {
@@ -68,11 +67,6 @@ const userSchema = new mongoose.Schema({
       default: "Nepal",
     },
   },
-
-  //Guardian Information
-  parentName: String,
-  parentPhone: String,
-  parentEmail: String,
 
   createAt: {
     type: Date,

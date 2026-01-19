@@ -1,61 +1,61 @@
-import * as classService from "../services/class.service.js";
+import classService from "../services/class.service.js";
 
-export const createClass = async (req, res) => {
+const createClass = async (req, res) => {
   try {
     const newClass = await classService.createClass(req.body);
 
     res.status(201).json({
       success: true,
-      data: newClass
+      data: newClass,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
 
-export const getAllClasses = async (req, res) => {
+const getAllClasses = async (req, res) => {
   try {
     const classes = await classService.getAllClasses();
 
     res.json({
       success: true,
-      data: classes
+      data: classes,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
 
-export const getClassById = async (req, res) => {
+const getClassById = async (req, res) => {
   try {
     const singleClass = await classService.getClassById(req.params.id);
 
     if (!singleClass) {
       return res.status(404).json({
         success: false,
-        message: "Class not found"
+        message: "Class not found",
       });
     }
 
     res.json({
       success: true,
-      data: singleClass
+      data: singleClass,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: "Invalid class ID"
+      message: "Invalid class ID",
     });
   }
 };
 
-export const updateClass = async (req, res) => {
+const updateClass = async (req, res) => {
   try {
     const updatedClass = await classService.updateClass(
       req.params.id,
@@ -64,28 +64,36 @@ export const updateClass = async (req, res) => {
 
     res.json({
       success: true,
-      data: updatedClass
+      data: updatedClass,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
 
-export const deleteClass = async (req, res) => {
+const deleteClass = async (req, res) => {
   try {
     await classService.deleteClass(req.params.id);
 
     res.json({
       success: true,
-      message: "Class deleted successfully"
+      message: "Class deleted successfully",
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
+};
+
+export default {
+  createClass,
+  getAllClasses,
+  getClassById,
+  updateClass,
+  deleteClass,
 };

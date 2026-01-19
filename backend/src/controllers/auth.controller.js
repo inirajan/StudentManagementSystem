@@ -10,7 +10,9 @@ const login = async (req, res) => {
 
     res.cookie("authToken", token, { maxAge: 86400 * 1000 });
 
-    res.status(200).json({ data: data, message: "User logged In." });
+    res
+      .status(200)
+      .json({ data: data, token: token, message: "User logged In." });
   } catch (error) {
     res.status(error?.status || 500).send(error?.message);
   }
@@ -26,7 +28,18 @@ const register = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("authToken");
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    res.status(error?.status || 409).send(error?.message);
+  }
+};
+
 export default {
   login,
   register,
+  logout,
 };

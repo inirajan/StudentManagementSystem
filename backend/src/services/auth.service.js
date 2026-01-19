@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import jwt from "../utils/jwt.js";
 
 const login = async (data) => {
   const user = await User.findOne({

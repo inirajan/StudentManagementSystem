@@ -1,76 +1,40 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Student name is required."],
-  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
 
-  age: {
-    type: Number,
-    required: [true, "Age is required."],
+    required: [true, "User reference is required."],
   },
   studentId: {
     type: String,
-    required: [true, "Email adress is required."],
+    required: [true, "Student ID is required."],
     unique: true,
-    trim: true,
-    lowercase: true,
-    validate: {
-      validator: (value) => {
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        return emailRegex.test(value);
-      },
-    },
   },
   classRoom: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Class",
-    required: [true, "Class room is required."],
+    // required: [true, "Class room is required."],
   },
   currentGPA: {
     type: String,
-    required: [true, "Password is required."],
-    minLength: [6, "Password length must be greater than 6."],
+    required: [true, "Current Grade is required."],
   },
   attendanceRate: {
     type: String,
-    required: [true, "Phone number is required."],
-    minLength: [6, "Invalid phone number."],
-    maxlength: [13, "Invalid phone number."],
+    required: [true, "Attendance Rate is required."],
   },
   totalAbasences: {
     type: String,
     required: [true, "Total Abasences is required."],
   },
-
-  gender: {
+  parentName: {
     type: String,
-    required: [true, "Gender should be included."],
-    enum: ["Male", "Female", "Others"],
   },
-
-  address: {
-    city: {
-      type: String,
-      required: [true, "Address city  is required."],
-    },
-    province: {
-      type: String,
-      required: [true, "Address province is required."],
-    },
-    street: String,
-    country: {
-      type: String,
-      default: "Nepal",
-    },
+  parentContact: {
+    type: String,
   },
-
-  //Guardian Information
-  parentName: String,
-  parentPhone: String,
-  parentEmail: String,
-
   createdAt: {
     type: Date,
     default: Date.now,
