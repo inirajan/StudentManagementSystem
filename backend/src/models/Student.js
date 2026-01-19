@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
   classRoom: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Class",
-    required: [true, "Class room is required."],
+    // required: [true, "Class room is required."],
   },
   currentGPA: {
     type: String,
@@ -29,10 +29,11 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Total Abasences is required."],
   },
+  parentName: {
+    type: String,
+  },
   parentContact: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "Parent Contact is required."],
+    type: String,
   },
   createdAt: {
     type: Date,

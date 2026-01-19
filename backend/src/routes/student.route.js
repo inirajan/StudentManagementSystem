@@ -6,7 +6,12 @@ import { ROLE_ADMIN, ROLE_STUDENT } from "../constants/roles.js";
 
 const router = express.Router();
 
-router.post("/", studentController.createStudentProfile);
+router.post(
+  "/",
+  auth,
+  roleBasedAuth(ROLE_ADMIN),
+  studentController.createStudentProfile,
+);
 
 router.get("/", auth, roleBasedAuth(ROLE_ADMIN), studentController.getStudents);
 
@@ -14,21 +19,21 @@ router.get(
   "/:id",
   auth,
   roleBasedAuth(ROLE_ADMIN),
-  studentController.getStudentById
+  studentController.getStudentById,
 );
 
 router.put(
   "/:id",
   auth,
   roleBasedAuth(ROLE_ADMIN, ROLE_STUDENT),
-  studentController.updatStudent
+  studentController.updatStudent,
 );
 
 router.delete(
   "/:id",
   auth,
   roleBasedAuth(ROLE_ADMIN),
-  studentController.deleteStudent
+  studentController.deleteStudent,
 );
 
 export default router;
